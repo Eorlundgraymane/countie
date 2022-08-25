@@ -4,12 +4,11 @@ const bodyParser = require("body-parser");
 const rootDir = require("./utils/path");
 const path = require("path");
 const ejs = require("ejs");
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 const app = express();
 const database = require("./database/database");
 const relations = require("./database/relations");
 const mainRouter = require("./routers/mainRouter");
-const { env } = require("process");
 
 app.set("view-engine", ejs);
 app.set("views", "views");
