@@ -1,0 +1,53 @@
+<%- include('./include/header.ejs')%>
+
+<div class="row">
+  <div class="col-sm-6">
+    <form class="form-group" action="/signup" method="POST">
+      <label for="username">Email : </label>
+      <input
+        required
+        class="form-control"
+        type="text"
+        name="email"
+        id="email"
+      />
+      <label for="username">Username : </label>
+      <input
+        required
+        class="form-control"
+        type="text"
+        name="username"
+        id="username"
+      />
+      <label for="username">Password : </label>
+      <input
+        required
+        class="form-control"
+        type="password"
+        name="password"
+        id="password"
+      />
+      <label for="username">Confirm Password : </label>
+      <input
+        required
+        class="form-control"
+        type="password"
+        name="confirmpassword"
+        id="confirmpassword"
+      />
+      <br />
+      <button class="form-control btn btn-success" type="submit">
+        Sign Up
+      </button>
+    </form>
+    <br />    
+    <% if(typeof errorMessage != 'undefined'){%>
+    <span><p style="color: red"><%=errorMessage%></p></span>
+    <%}%> <% if(typeof userInfoMessage != 'undefined'){%>
+    <span><p style="color: green"><%=userInfoMessage%></p></span>
+    <%}%>
+  </div>
+  <a href="/"><button type="button" class="btn btn-info">Login</button></a>
+</div>
+
+<%- include('./include/footer.ejs')%>
