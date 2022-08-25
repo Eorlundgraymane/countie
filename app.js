@@ -31,12 +31,12 @@ const port = process.env.PORT || 3000;
 
 app.use(mainRouter);
 sequelizeDB
-  .sync({ force: true })
-  //.sync()
+  // .sync({ force: true })
+  .sync()
   .then((seqResult) => {
     console.log(seqResult);
-    database.sync({ force: true }).then(
-    //database.sync().then(
+    // database.sync({ force: true }).then(
+    database.sync().then(
       (result) => {
         console.log(result);
         console.log("DB Connected.");
