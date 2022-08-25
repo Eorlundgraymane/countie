@@ -1,22 +1,20 @@
 const User = require("../models/user");
 
-exports.postLoginUser = (req, res) => {
+exports.postLoginUser = (req, res,next) => {
   User.findOne({
     where: { username: req.body.username, password: req.body.password },
   })
-      .then((user) => {
-          if (user) {
-                  console.log(user);
-                  req.session.isAuth = true;
-                  req.session.user = user;
-                  res.redirect("/home");
-          }
-          else {
-                    req.session.errorMessage = "Username or Password Incorrect";
-                    console.log("Username or Password Incorrect");
-                    res.status(401).redirect("/");
-          }
-
+    .then((user) => {
+      if (user) {
+        console.log("Logged In as "+user.username);
+        req.session.isAuth = true;
+        req.session.user = user;        
+        res.redirect("/home");
+      } else {
+        req.session.errorMessage = "Username or Password Incorrect";
+        console.log("Username or Password Incorrect");
+        res.status(401).redirect("/");
+      }
     })
     .catch((err) => {
       //   console.log(err);
@@ -35,11 +33,10 @@ exports.getLogoutUser = (req, res) => {
     req.session.user = null;
     req.session.userInfoMessage = "Logged Out Successfully";
     res.redirect("/");
-    }
-  else {
-      req.session.errorMessage = "You are not Logged In!";
-       res.redirect("/");
-    }
+  } else {
+    req.session.errorMessage = "You are not Logged In!";
+    res.redirect("/");
+  }
   //logoutUser()
 };
 

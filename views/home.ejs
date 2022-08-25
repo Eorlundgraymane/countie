@@ -1,10 +1,55 @@
-<%- include('./include/header.ejs')%>
-<%- include('./include/navigation.ejs')%>
+<%- include('./include/header.ejs')%> <%- include('./include/navigation.ejs')%>
 
 <div class="row">
-    <div class="col-sm-6">
-        <h1>Welcome <%=user.username%></h1>
-    </div>
+  <div class="col-sm-6">
+    <h1>Welcome <%=user.username%></h1>
+
+    <form class="form-group" action="/create-list" method="POST">
+      <fieldset>
+        <legend>Create List</legend>
+        <label for="listTitle">Title</label>
+        <input
+          class="form-control"
+          type="text"
+          name="listTitle"
+          ,
+          id="listTitle"
+        />
+        <br />
+        <button class="btn btn-light" type="submit">+</button>
+      </fieldset>
+    </form>
+    <br />
+    <%! lists.forEach(list => {%>
+    <form class="form-group" action="/add-item" method="POST">
+      <fieldset>
+        <legend><%=list.title%></legend>
+        <input
+          value="<%=list.id%>"
+          type="text"
+          name="listId"
+          id="listId"
+          hidden
+        />
+        <ul>
+          <%! list.items.forEach(item => {%>
+          <li><%=item.itemname%></li>
+          <% })%>
+        </ul>
+        <label for="newListItem">Add Item</label>
+        <input
+          class="form-control"
+          type="text"
+          name="newListItem"
+          id="newListItem"
+        />
+        <br />
+
+        <button class="btn btn-light" type="submit">+</button>
+      </fieldset>
+    </form>
+    <%}) %>
+  </div>
 </div>
 
 <%- include('./include/footer.ejs')%>
