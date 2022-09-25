@@ -6,9 +6,11 @@ const rootDir = require("./utils/path");
 const path = require("path");
 const ejs = require("ejs");
 const app = express();
+const port = process.env.PORT || 3000;
 const database = require("./database/database");
 const relations = require("./database/relations");
 const mainRouter = require("./routers/mainRouter");
+const User = require("./models/user");
 
 app.set("view-engine", ejs);
 app.set("views", "views");
@@ -27,7 +29,17 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(rootDir, "public")));
 
-const port = process.env.PORT || 3000;
+app.use("/", (req, res,next) => {
+  if (req.session.isAuth) {
+    User.findByPk(req.session.user.id).then((user) => {
+      req.user = user;
+      next();
+    });
+  }
+  else {
+    next();
+  }
+});
 
 app.use(mainRouter);
 sequelizeDB

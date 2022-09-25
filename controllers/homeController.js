@@ -1,23 +1,34 @@
+const Item = require("../models/item");
 const List = require("../models/list");
-const ListItem = require("../models/list-item");
+const ListItem = require("../models/listItem");
 const User = require("../models/user");
 
 exports.getHomePage = (req, res, next) => {
   if (req.session.isAuth) {
+    var params = {};
+    params.pageTitle = "Counterie - Home";
     User.findByPk(req.session.user.id, {
-      include: {
-        model: List,
-        as: "lists",
-        include: { model: ListItem, as: "items" },
-      },
-    }).then((user) => {
-      let params = {};
-      params.pageTitle = "Countie-Home";
-      params.user = user;
-      console.log("Entring Home as " + user.username);
-      params.lists = user.lists;
-      res.render("home.ejs", params);
-    });
+      include: [{ all: true, nested: true }],
+    })
+      .then((user) => {
+        console.log(user);
+        console.log(user.lists);
+        user.lists.forEach((list) => {
+          console.log(list.items);
+          console.log("********************************");
+          list.items.forEach((item) => {
+            console.log(item);
+            console.log("COUNT IS ");
+            console.log(item.listItem.count);
+          });
+          console.log("********************************");
+        });
+        params.user = user;
+        res.render("home.ejs", params);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } else {
     req.session.errorMessage = "You are not Logged In!";
     res.redirect("/");

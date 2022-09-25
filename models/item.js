@@ -8,7 +8,7 @@ const Item = database.define("item", {
     allowNull: false,
     primaryKey: true,
   },
-  itemname: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,

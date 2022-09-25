@@ -1,12 +1,11 @@
 const User = require("../models/user");
 const List = require("../models/list");
 const Item = require("../models/item");
-const ListItem = require("../models/list-item");
+const ListItem = require("../models/listItem");
 
-User.hasMany(List,{as: 'lists'});
-List.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
-List.hasMany(ListItem, {as: 'items'})
-ListItem.belongsTo(List, { constraints: true, onDelete: "CASCADE" });
-Item.belongsToMany(List, { through: ListItem });
+User.hasMany(List);
+List.belongsTo(User);
+Item.belongsToMany(List, { through: { model: ListItem } });
+List.belongsToMany(Item, { through: { model: ListItem } });
 
 module.exports = this;

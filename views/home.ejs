@@ -20,7 +20,7 @@
       </fieldset>
     </form>
     <br />
-    <%! lists.forEach(list => {%>
+    <%! user.lists.forEach(list => {%>
     <form class="form-group" action="/add-item" method="POST">
       <fieldset>
         <legend><%=list.title%></legend>
@@ -32,16 +32,24 @@
           hidden
         />
         <ul>
-          <%! list.items.forEach(item => {%>
-          <li><%=item.itemname%></li>
+          <%! list.items.forEach(item=> {%>
+          <li>
+            <form action="/add-item" method="post">
+               <%=item.name%> - <%=item.listItem.count%>
+               <input type="text" name="listId" hidden value = <%=list.id%>>
+               <input type="text" name="itemId"hidden value = <%=item.id%>>
+               <input type="text" name="itemName"hidden value = <%=item.name%>>
+               <button class="btn btn-sm btn-light" type="submit">+</button>
+            </form>
+          </li>
           <% })%>
         </ul>
         <label for="newListItem">Add Item</label>
         <input
           class="form-control"
           type="text"
-          name="newListItem"
-          id="newListItem"
+          name="itemName"
+          id="itemName"
         />
         <br />
 
